@@ -12,7 +12,7 @@ const client = new Client({
   ],
 });
 
-client.once('clientReady', () => {
+client.once('ready', () => {
   console.log('Bot hazır!');
   console.log(`${client.user.tag} olarak giriş yapıldı`);
 });
@@ -54,5 +54,14 @@ if (!token) {
   console.error('BOT_TOKEN environment variable tanımlanmamış!');
   process.exit(1);
 }
+// Basit durum kontrol komutu
+client.on('messageCreate', (message) => {
+  // Bot kendi mesajına cevap vermesin
+  if (message.author.bot) return;
 
+  // Eğer kullanıcı "!durum" yazarsa
+  if (message.content === '!durum') {
+    message.channel.send('✅ Bot aktif ve çalışıyor!');
+  }
+});
 client.login(token);
